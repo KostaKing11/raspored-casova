@@ -184,7 +184,7 @@ fun SubjectsScreen(
                         Column(Modifier.weight(1f)) {
                             Text(s.name, style = MaterialTheme.typography.titleMedium)
                             Text(
-                                if (uses == 0) "nije u rasporedu" else "$uses u rasporedu nedeljno",
+                                if (uses == 0) "nije u rasporedu" else "u rasporedu $uses× nedeljno",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = LocalExtraColors.current.textMuted,
                             )

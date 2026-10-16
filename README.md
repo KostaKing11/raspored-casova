@@ -5,7 +5,16 @@ Kad otvoriš aplikaciju odmah vidiš današnji raspored po bojama, prevlačenjem
 prethodni/sledeći školski dan, dodaješ kontrolne kao u Google Calendaru — i **tačno u minutu kad se čas
 završi** stiže notifikacija koji je sledeći čas i u kojoj učionici.
 
-<!-- SCREENSHOTS -->
+| | | |
+|---|---|---|
+| ![Dan](docs/screenshots/01_dan_tamna_tema.png) | ![Kontrolni na času](docs/screenshots/04_kartica_sa_kontrolnim.png) | ![Svetla tema](docs/screenshots/13_dan_svetla_tema.png) |
+| Današnji raspored, trenutni čas i crvena linija „sada“ | Badge ⚠ KONTROLNI na kartici | Svetla tema |
+| ![Kalendar](docs/screenshots/05_kalendar.png) | ![Predstojeće](docs/screenshots/06_predstojece.png) | ![Novi kontrolni](docs/screenshots/03_dodaj_kontrolni.png) |
+| Mesečni kalendar sa tačkicama | Predstojeće sa odbrojavanjem | Dodavanje kontrolnog |
+| ![Uredi raspored](docs/screenshots/08_uredi_raspored.png) | ![Debug](docs/screenshots/11_debug.png) | ![Onboarding](docs/screenshots/00_release_onboarding.png) |
+| Izmene rasporeda | Debug / test ekran | Onboarding (dozvole, baterija, Samsung) |
+
+Ostali screenshotovi: [docs/screenshots](docs/screenshots). Svi su napravljeni automatski na Android 16 emulatoru u CI-ju.
 
 ## Šta aplikacija radi
 

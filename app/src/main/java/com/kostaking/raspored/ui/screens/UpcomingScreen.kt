@@ -57,7 +57,7 @@ fun UpcomingScreen(
             Column(Modifier.weight(1f)) {
                 Text("Predstojeće", style = MaterialTheme.typography.headlineMedium)
                 Text(
-                    "${all.count { !it.date.isBefore(today) }} obaveza",
+                    obaveze(all.count { !it.date.isBefore(today) }),
                     style = MaterialTheme.typography.titleSmall,
                     color = LocalExtraColors.current.textMuted,
                 )
@@ -95,3 +95,14 @@ fun UpcomingScreen(
 }
 
 private fun mutableStateOfFalse() = androidx.compose.runtime.mutableStateOf(false)
+
+/** 1 obaveza, 2–4 obaveze, 5+ obaveza (11–14 obaveza). */
+private fun obaveze(n: Int): String {
+    val m10 = n % 10
+    val m100 = n % 100
+    return when {
+        m10 == 1 && m100 != 11 -> "$n obaveza"
+        m10 in 2..4 && m100 !in 12..14 -> "$n obaveze"
+        else -> "$n obaveza"
+    }
+}
