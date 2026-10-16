@@ -85,12 +85,20 @@ adb shell input keyevent KEYCODE_HOME
 adb logcat -c
 adb shell dumpsys battery unplug
 adb shell input keyevent 223   # screen off
-sleep 2
-adb shell dumpsys deviceidle force-idle
+force_deep_idle() {
+  for i in $(seq 1 10); do
+    adb shell dumpsys deviceidle force-idle >/dev/null
+    [ "$(adb shell dumpsys deviceidle get deep | tr -d '\r')" = "IDLE" ] && return 0
+    adb shell input keyevent 223; sleep 3
+  done
+  return 1
+}
+force_deep_idle || true
 STATE=$(adb shell dumpsys deviceidle get deep | tr -d '\r')
 info "Doze (deep) stanje pre čekanja: $STATE"
 adb shell dumpsys alarm | grep -A2 "$PKG" | head -n 12 > "$OUT/dumpsys-alarm-doze.txt" || true
-sleep 200   # until ~11:50:20
+info "Doze (deep) stanje pre čekanja (2): $(adb shell dumpsys deviceidle get deep | tr -d '\r')"
+sleep 195   # until ~11:50:20
 LINE=$(adb logcat -d -s RasporedAlarm:I | grep "delivered kind=NEXT_LESSON" | head -n 1)
 echo "$LINE"
 if [ -n "$LINE" ]; then
@@ -108,7 +116,8 @@ adb shell dumpsys deviceidle unforce >/dev/null
 bcast SET_MODE --es mode EXACT_IDLE
 sleep 2
 adb logcat -c
-adb shell dumpsys deviceidle force-idle
+force_deep_idle || true
+info "Doze (deep) stanje: $(adb shell dumpsys deviceidle get deep | tr -d '\r')"
 bcast TEST_ALARM --el seconds 60
 sleep 80
 LINE=$(adb logcat -d -s RasporedAlarm:I | grep "delivered kind=TEST" | head -n 1)

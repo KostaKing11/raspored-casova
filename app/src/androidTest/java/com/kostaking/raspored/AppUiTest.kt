@@ -140,7 +140,8 @@ class AppUiTest {
         shot("03_dodaj_kontrolni")
         compose.onNodeWithTag("saveEvent").performClick()
         compose.waitUntil(5_000) {
-            compose.onAllNodes(hasTestTag("badge-$period") and hasAnyAncestor(hasTestTag("day-$shownDay")))
+            // the card is clickable, which merges its children – look in the unmerged tree
+            compose.onAllNodes(hasTestTag("badge-$period") and hasAnyAncestor(hasTestTag("day-$shownDay")), useUnmergedTree = true)
                 .fetchSemanticsNodes().isNotEmpty()
         }
         val e = runBlocking { c.repo.snapshot() }.events.single()
