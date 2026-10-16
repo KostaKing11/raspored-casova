@@ -1,6 +1,7 @@
 package com.kostaking.raspored.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.material3.darkColorScheme
@@ -118,7 +119,11 @@ fun RasporedTheme(mode: ThemeMode, content: @Composable () -> Unit) {
         ExtraColors(false, Color.White, Color(0xFF14172B), Color(0xFF5B6185), Color(0x1A14172B))
     }
     CompositionLocalProvider(LocalExtraColors provides extra) {
-        MaterialTheme(colorScheme = scheme, typography = AppTypography, content = content)
+        MaterialTheme(colorScheme = scheme, typography = AppTypography) {
+            // Screens draw on a transparent Scaffold over the space background, so the default
+            // content colour must come from the theme (it would otherwise be black).
+            CompositionLocalProvider(LocalContentColor provides scheme.onBackground, content = content)
+        }
     }
 }
 

@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CalendarMonth
-import androidx.compose.material.icons.rounded.EventNote
+import androidx.compose.material.icons.automirrored.rounded.EventNote
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.ViewDay
 import androidx.compose.material3.Icon
@@ -157,7 +157,7 @@ fun AppRoot(vm: AppViewModel) {
                             val items = listOf(
                                 Triple("Raspored", Icons.Rounded.ViewDay, "tabDay"),
                                 Triple("Kalendar", Icons.Rounded.CalendarMonth, "tabCalendar"),
-                                Triple("Predstojeće", Icons.Rounded.EventNote, "tabUpcoming"),
+                                Triple("Predstojeće", Icons.AutoMirrored.Rounded.EventNote, "tabUpcoming"),
                                 Triple("Podešavanja", Icons.Rounded.Settings, "tabSettings"),
                             )
                             items.forEachIndexed { i, (label, icon, tag) ->

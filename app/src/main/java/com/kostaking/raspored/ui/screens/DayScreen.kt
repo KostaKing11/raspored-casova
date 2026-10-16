@@ -506,7 +506,7 @@ fun LessonCard(
                 }
             }
             if (progress != null) {
-                val left = minutesUntil(nowTime!!, block.end)
+                val left = minutesUntil(nowTime, block.end)
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     LinearProgressIndicator(
                         progress = { progress },
@@ -550,7 +550,7 @@ private fun BreakRow(item: TimelineItem.Break, nowTime: LocalTime?) {
     val extra = LocalExtraColors.current
     val minutes = item.minutes
     val inBreak = nowTime != null && !nowTime.isBefore(item.start) && nowTime.isBefore(item.end)
-    val progress = if (inBreak) DayTimeline.progress(item, nowTime!!) else null
+    val progress = if (inBreak) DayTimeline.progress(item, nowTime) else null
     Box(
         Modifier
             .fillMaxWidth()

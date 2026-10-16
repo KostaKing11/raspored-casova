@@ -23,8 +23,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.CallMerge
-import androidx.compose.material.icons.rounded.CallSplit
+import androidx.compose.material.icons.automirrored.rounded.CallMerge
+import androidx.compose.material.icons.automirrored.rounded.CallSplit
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material.icons.rounded.Edit
 import androidx.compose.material.icons.rounded.MoreVert
@@ -222,7 +222,7 @@ private fun LessonRow(
                 if (canMerge) {
                     DropdownMenuItem(
                         text = { Text("Spoji sa sledećim (blok)") },
-                        leadingIcon = { Icon(Icons.Rounded.CallMerge, null) },
+                        leadingIcon = { Icon(Icons.AutoMirrored.Rounded.CallMerge, null) },
                         onClick = { menu = false; onMerge() },
                         modifier = Modifier.testTag("merge"),
                     )
@@ -230,7 +230,7 @@ private fun LessonRow(
                 if (lesson.span > 1) {
                     DropdownMenuItem(
                         text = { Text("Razdvoji blok") },
-                        leadingIcon = { Icon(Icons.Rounded.CallSplit, null) },
+                        leadingIcon = { Icon(Icons.AutoMirrored.Rounded.CallSplit, null) },
                         onClick = { menu = false; onSplit() },
                         modifier = Modifier.testTag("split"),
                     )
