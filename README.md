@@ -126,7 +126,7 @@ Release. Ključ za potpisivanje je u GitHub Secrets (nikad u repou):
 
 Podešavanje: GitHub → repo → **Settings → Secrets and variables → Actions → New repository secret**.
 
-Nova verzija: `git tag v1.0.1 && git push origin v1.0.1` (ili Actions → Release → Run workflow, uneti tag).
+Nova verzija: **Actions → Release → Run workflow** → upiši tag (npr. `v1.0.1`) → Run (tag se pravi automatski na izabranoj grani), ili `git tag v1.0.1 && git push origin v1.0.1`.
 `versionName` = broj iz taga, `versionCode` = major·10000 + minor·100 + patch.
 
 **Backup ključa:** keystore + lozinke čuvaj na bar dva mesta van GitHub-a (npr. menadžer lozinki tipa
