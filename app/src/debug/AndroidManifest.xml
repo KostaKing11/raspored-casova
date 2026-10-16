@@ -12,6 +12,7 @@
                 <action android:name="com.kostaking.raspored.debug.DUMP" />
                 <action android:name="com.kostaking.raspored.debug.SKIP_ONBOARDING" />
                 <action android:name="com.kostaking.raspored.debug.RESCHEDULE" />
+                <action android:name="com.kostaking.raspored.debug.SET_MODE" />
                 <action android:name="com.kostaking.raspored.debug.ADD_EVENT" />
             </intent-filter>
         </receiver>

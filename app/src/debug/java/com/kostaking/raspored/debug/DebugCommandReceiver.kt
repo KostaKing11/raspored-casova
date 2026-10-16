@@ -29,6 +29,12 @@ class DebugCommandReceiver : BroadcastReceiver() {
                         c.settings.update { it.copy(onboardingDone = true, samsungStepDone = true) }
                         Log.i(TAG, "onboarding skipped")
                     }
+                    "SET_MODE" -> {
+                        val mode = com.kostaking.raspored.data.AlarmMode.valueOf(intent.getStringExtra("mode") ?: "ALARM_CLOCK")
+                        c.settings.update { it.copy(alarmMode = mode) }
+                        val r = c.scheduler.reschedule("mode")
+                        Log.i(TAG, "mode=$mode rescheduled count=${r.count}")
+                    }
                     "RESCHEDULE" -> {
                         val r = c.scheduler.reschedule("debug")
                         Log.i(TAG, "rescheduled count=${r.count} exact=${r.exact}")

@@ -48,9 +48,13 @@ class AppContainer(context: Context, inMemoryDb: Boolean = false) {
     }
 }
 
-class RasporedApp : Application() {
-    lateinit var container: AppContainer
-        private set
+/** Implemented by the Application so components (and tests) can reach the [AppContainer]. */
+interface ContainerHolder {
+    val container: AppContainer
+}
+
+class RasporedApp : Application(), ContainerHolder {
+    override lateinit var container: AppContainer
 
     override fun onCreate() {
         super.onCreate()
@@ -60,4 +64,4 @@ class RasporedApp : Application() {
     }
 }
 
-val Context.container: AppContainer get() = (applicationContext as RasporedApp).container
+val Context.container: AppContainer get() = (applicationContext as ContainerHolder).container
