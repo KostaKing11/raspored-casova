@@ -1,7 +1,8 @@
 name: Release
 
 # Builds a signed release APK and attaches it to a GitHub Release.
-#   git tag v1.0.1 && git push origin v1.0.1      (or run manually from the Actions tab)
+#   git tag v1.0.1 && git push origin v1.0.1
+# or: Actions → Release → Run workflow → tag "v1.0.1" (the tag is created on the selected branch)
 # Signing key comes from repository secrets (see README → "Potpisivanje"), so every
 # version is signed with the same key and installs over the previous one.
 
@@ -11,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Tag verzije (npr. v1.0.1) ili grana za probni build'
+        description: 'Tag nove verzije (npr. v1.0.1) – biće napravljen na izabranoj grani'
         required: true
       dry_run:
         description: 'Probni build sa privremenim ključem (ništa se ne objavljuje)'
@@ -29,9 +30,9 @@ jobs:
       TAG: ${{ github.event.inputs.tag || github.ref_name }}
       GH_TOKEN: ${{ github.token }}
     steps:
+      # Tag push: builds the tagged commit. Manual run: builds the selected branch and the
+      # release step creates the tag on that commit.
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.tag || github.ref }}
 
       - name: Provera ključa za potpisivanje
         id: check
@@ -100,6 +101,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.TAG }}
+          target_commitish: ${{ github.sha }}
           name: Raspored časova ${{ env.TAG }}
           files: raspored-casova-${{ env.TAG }}.apk
           generate_release_notes: true
