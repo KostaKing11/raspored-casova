@@ -6,6 +6,11 @@ on:
     tags-ignore: ['v*']
   pull_request:
   workflow_dispatch:
+    inputs:
+      commit_screenshots:
+        description: 'Commit-uj screenshotove sa emulatora u docs/screenshots (za README)'
+        type: boolean
+        default: false
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -60,6 +65,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 75
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -107,3 +114,16 @@ jobs:
           name: emulator-results
           path: ci-out/
           if-no-files-found: ignore
+
+      - name: Commit screenshotova u docs/screenshots
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.commit_screenshots == 'true'
+        run: |
+          mkdir -p docs/screenshots
+          for f in ci-out/screenshots/*.png; do
+            convert "$f" -resize 540x "docs/screenshots/$(basename "$f")" 2>/dev/null || cp "$f" docs/screenshots/
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/screenshots
+          git commit -m "Screenshotovi sa emulatora [skip ci]" || exit 0
+          git push origin "HEAD:${GITHUB_REF_NAME}"
