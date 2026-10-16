@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+    tags-ignore: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build + unit testovi
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build i unit testovi (core + Robolectric)
+        run: ./gradlew --stacktrace :core:test :app:testDebugUnitTest :app:assembleDebug :app:assembleDebugAndroidTest :app:assembleRelease
+
+      - name: Rezime testova
+        if: always()
+        run: |
+          python3 - <<'PY' | tee -a "$GITHUB_STEP_SUMMARY"
+          import glob, re
+          total = failed = 0
+          for p in glob.glob('**/build/test-results/**/*.xml', recursive=True):
+              s = open(p, encoding='utf-8').read()
+              m = re.search(r'tests="(\d+)" skipped="\d+" failures="(\d+)" errors="(\d+)"', s)
+              if m:
+                  total += int(m[1]); failed += int(m[2]) + int(m[3])
+              for f in re.findall(r'<testcase name="([^"]+)" classname="([^"]+)"[^>]*>\s*<failure message="([^"]*)"', s):
+                  print(f"FAILED {f[1]}.{f[0]}: {f[2][:300]}")
+          print(f"### Unit testovi: {total} ukupno, {failed} palo")
+          PY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: apk-and-reports
+          path: |
+            app/build/outputs/apk/**/*.apk
+            app/build/reports/tests/**
+            core/build/reports/tests/**
+          if-no-files-found: ignore
